@@ -3,7 +3,7 @@ describe("Amazon ",()=>{
 
 it("Beginnen Browser und Gehen Amazon Website",()=>{
 
-cy.visit("https://www.amazon.com.tr/")
+cy.visit("/")
 cy.wait(2000)
 
 })
@@ -12,6 +12,13 @@ it('Akzeptieren Cookies', () => {
     
     cy.xpath("//input[@id='sp-cc-accept']").click();
 
+});
+
+it('URL und Title assertion', () => {
+
+    cy.url().should('include','amazon');
+    cy.title().should('include','Amazon');
+    
 });
 
 it('Screiben eine Dinge auf Search Box', () => {
@@ -45,8 +52,32 @@ it('Erstellen Eine Konto“.', () => {
     cy.contains("Cep telefonu numarası veya e-posta").should("be.visible")
 });
 
+})
 
 
+describe.only("Suchen Eine Dinge in Amazon",function() {
+
+it('Besuchen HomePage', () => {
+    cy.visit("/")
+    cy.url().should('include','amazon')
+    cy.xpath("//input[@id='sp-cc-accept']").click();
+
+});
+
+it('Finden SearchBox und Eingabe eine Dinge', () => {
+
+    const produktName="alcatel 2019G";
+
+    cy.get('#twotabsearchtextbox').type(produktName).type('{enter}')
+    cy.xpath("//input[@id='sp-cc-accept']").click();
+
+});
+
+it('Prüfen das Ergebnis von produktName', () => {
+    cy.get(' .sg-col-inner').should("have.length",35)
+});
+
+    
 })
 
 
